@@ -13,12 +13,14 @@ module.exports = (req, res, next) => {
 
   try {
     //TODO : Vérifier le token JWT avec la clé secrète JWT_SECRET
-    const payload =
+     const payload = jwt.verify(token, JWT_SECRET);
     const user = findUserByUsername(payload.username);
     if (!user) throw new Error("User not found");
     req.user = user;
     next();
+    
   } catch (err) {
     res.status(401).json({ error: "Invalid token" });
   }
 };
+ 
